@@ -3,6 +3,7 @@ dash-bootstrap-components
 flask
 flask-sqlalchemy
 gunicorn
+psycopg2
 redis
 rq
 sqlalchemy
