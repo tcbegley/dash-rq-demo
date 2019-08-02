@@ -14,7 +14,11 @@ server.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
 server.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(server)
 
-app = dash.Dash(server=server, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(
+    server=server,
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    serve_locally=False,
+)
 
 redis_url = os.getenv("REDISTOGO_URL", "redis://localhost:6379")
 conn = redis.from_url(redis_url)
