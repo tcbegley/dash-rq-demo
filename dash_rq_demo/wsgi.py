@@ -1,3 +1,4 @@
-from .core import server as application
+from .core import db, server
 
-__all__ = ["application"]
+db.create_all()
+application = server
