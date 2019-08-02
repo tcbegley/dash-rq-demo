@@ -2,6 +2,7 @@ dash
 dash-bootstrap-components
 flask
 flask-sqlalchemy
+gunicorn
 redis
 rq
 sqlalchemy
