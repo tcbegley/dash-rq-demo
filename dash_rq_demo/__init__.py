@@ -6,8 +6,9 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
-from app_tasks import slow_multiply
-from core import Result, app, db, queue
+from .core import app, db, queue
+from .models import Result
+from .tasks import slow_multiply
 
 app.layout = dbc.Container(
     [
@@ -64,8 +65,3 @@ def retrieve_output(n, data):
             elif result.started and not result.completed:
                 return "Processing..."
     return None
-
-
-if __name__ == "__main__":
-    db.create_all()
-    app.run_server(debug=True)

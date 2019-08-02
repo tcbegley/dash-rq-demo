@@ -1,2 +1,2 @@
-web: gunicorn run:app.server
+web: gunicorn dash_rq_demo.wsgi
 worker: python worker.py

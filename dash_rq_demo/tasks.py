@@ -1,7 +1,8 @@
 import datetime
 import time
 
-from core import Result, db
+from .core import db
+from .models import Result
 
 
 def slow_multiply(x, y, pid):
