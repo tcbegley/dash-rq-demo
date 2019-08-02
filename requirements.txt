@@ -1,0 +1,7 @@
+dash
+dash-bootstrap-components
+flask
+flask-sqlalchemy
+redis
+rq
+sqlalchemy
