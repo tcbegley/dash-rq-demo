@@ -9,7 +9,7 @@ from rq import Queue
 
 server = flask.Flask(__name__)
 server.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-    "DATABASE_URL", "postgresql+psycopg2://localhost/mydb"
+    "DATABASE_URL", "postgresql+psycopg2://localhost/dash-rq-demo"
 )
 server.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(server)
