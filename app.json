@@ -1,0 +1,12 @@
+{
+  "name": "Dash RQ Demo",
+  "description": "This app demonstrates use of RQ and PostgreSQL to manage long running tasks in Plotly Dash.",
+  "keywords": ["flask", "plotly-dash", "python", "postgresql", "rq", "redis"],
+  "website": "https://dash-rq-demo.herokuapp.com/",
+  "repository": "https://github.com/tcbegley/dash-rq-demo",
+  "addons": ["heroku-postgresql", "redistogo"],
+  "formation": {
+    "web": { "quantity": 1, "size": "free" },
+    "worker": { "quantity": 1, "size": "free" }
+  }
+}
