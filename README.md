@@ -51,7 +51,7 @@ createdb dash-rq-demo
 python worker.py & python run_locally.py
 ```
 
-The app should be visible at [localhost:8050][https://127.0.0.1:8050].
+The app should be visible at [localhost:8050](https://127.0.0.1:8050).
 
 ## Deploy to Heroku
 
@@ -77,7 +77,7 @@ createdb dash-rq-demo
 heroku local
 ```
 
-The app will be visible at [0.0.0.0:5000][https://0.0.0.0:5000].
+The app will be visible at [0.0.0.0:5000](https://0.0.0.0:5000).
 
 ### Deploy to Heroku
 
