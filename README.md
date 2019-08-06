@@ -22,7 +22,8 @@ this example, as we only ever retrieve the result from the current task, but in
 applications where you want to keep results longer term it may be a good
 option.
 
-This example can be run locally, or deployed as is to [Heroku][heroku].
+This example can be run locally, or deployed as is to [Heroku][heroku]. You can
+also check out a deployed version [here][dash-rq-demo].
 
 ## Run locally
 
@@ -107,6 +108,7 @@ heroku open
 If something is unclear or you find a bug feel free to submit an issue or pull
 request.
 
+[dash-rq-demo]: https://dash-rq-demo.herokuapp.com/
 [deploy-endpoint]: https://heroku.com/deploy?template=https://github.com/tcbegley/dash-rq-demo
 [heroku]: https://www.heroku.com/
 [heroku-cli]: https://devcenter.heroku.com/articles/heroku-cli
