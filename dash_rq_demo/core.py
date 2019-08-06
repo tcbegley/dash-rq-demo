@@ -20,6 +20,7 @@ app = dash.Dash(
     serve_locally=False,
 )
 
+# redis connection and RQ queue. use redistogo service when dpeloying to Heroku
 redis_url = os.getenv("REDISTOGO_URL", "redis://localhost:6379")
 conn = redis.from_url(redis_url)
 queue = Queue(connection=conn)
