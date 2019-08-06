@@ -55,15 +55,20 @@ The app should be visible at [localhost:8050](https://127.0.0.1:8050).
 
 ## Deploy to Heroku
 
-This repo is configured to allow deployment to Heroku. It's recommended you
-still have Python>=3.6, Redis and PostgreSQL installed locally so that you can
-test the deployment with `heroku local`. You will also need to install the
-[Heroku CLI][heroku-cli].
+To deploy your own copy of this app on Heroku, just click on this button:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)][deploy-endpoint]
+
+Alternatively if you would like to set things up manually, follow the below
+steps. It's recommended you still have Python>=3.6, Redis and PostgreSQL
+installed locally so that you can test the deployment with `heroku local`. You
+will also need to install the [Heroku CLI][heroku-cli].
 
 ### Test locally
 
 The setup is similar to the local option above, but we use `heroku local` to
 test the deployment rather than running manually as a pair of Python processes.
+You can see the configuration in `Procfile`.
 
 ```
 git clone https://github.com/tcbegley/dash-rq-demo.git
@@ -82,18 +87,27 @@ The app will be visible at [0.0.0.0:5000](https://0.0.0.0:5000).
 ### Deploy to Heroku
 
 If you were able to successfully run the app using `heroku local`, you can now
-run the following to deploy to Heroku itself. Note we need to use
-`heroku scale worker=1` to start a worker for processing the queue in the
-background.
+run the following to deploy to Heroku itself. Note we need to add the Redis and
+PostgreSQL addons, and also use `heroku scale worker=1` to start a worker for
+processing the queue in the background.
 
 ```
 heroku create
 git push heroku master
 
+heroku addons:create heroku-postgresql
+heroku addons:create redistogo
 heroku scale worker=1
+
 heroku open
 ```
 
+## Contributing
+
+If something is unclear or you find a bug feel free to submit an issue or pull
+request.
+
+[deploy-endpoint]: https://heroku.com/deploy?template=https://github.com/tcbegley/dash-rq-demo
 [heroku]: https://www.heroku.com/
 [heroku-cli]: https://devcenter.heroku.com/articles/heroku-cli
 [pg-server]: https://www.postgresql.org/docs/9.1/server-start.html
