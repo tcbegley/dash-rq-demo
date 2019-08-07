@@ -5,6 +5,8 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
+from rq.exceptions import NoSuchJobError
+from rq.job import Job
 
 from .core import app, conn, db, queue
 from .models import Result
@@ -45,18 +47,18 @@ app.layout = dbc.Container(
 )
 def submit(n_clicks, text):
     if n_clicks:
-        pid = uuid.uuid4()
+        id_ = uuid.uuid4()
 
         # queue the task
-        queue.enqueue(slow_loop, text, pid)
+        queue.enqueue(slow_loop, text, id_, job_id=str(id_))
 
         # record queuing in the database
-        result = Result(pid=pid, queued=datetime.datetime.now())
+        result = Result(id=id_, queued=datetime.datetime.now())
         db.session.add(result)
         db.session.commit()
 
         # log process id in dcc.Store
-        return {"pid": str(pid)}
+        return {"id": str(id_)}
     return {}
 
 
@@ -71,11 +73,15 @@ def submit(n_clicks, text):
 )
 def retrieve_output(n, data):
     if n and data:
-        result = Result.query.filter_by(pid=data["pid"]).first()
-        if result:
-            if result.result:
+        try:
+            job = Job.fetch(data["id"], connection=conn)
+            if job.get_status() == "finished":
+                return job.result, 100, False
+            progress = job.meta.get("progress", 0)
+            return f"Processing - {progress:.1f}% complete", progress, True
+        except NoSuchJobError:
+            # if job no longer exists, retrive result from database
+            result = Result.query.filter_by(id=data["id"]).first()
+            if result and result.result:
                 return result.result, 100, False
-            elif result.started and not result.completed:
-                percent = float(conn.get(data["pid"]))
-                return f"Processing - {percent:.1f}% complete", percent, True
     return None, None, False
