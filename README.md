@@ -16,37 +16,30 @@ second callback firing on an interval checks the current status of the job,
 either retrieving the result or updating a progress bar to indicate progress
 made on the task.
 
-Results from completed tasks are tracked and stored in a PostgreSQL database,
-intermediate progress is stored in Redis. PostgreSQL is a bit heavy handed in
-this example, as we only ever retrieve the result from the current task, but in
-applications where you want to keep results longer term it may be a good
-option.
+A version of this app that uses a PostgreSQL database to store results of long
+running tasks can be found on the
+[`postgresql` branch](https://github.com/tcbegley/dash-rq-demo/tree/postgresql).
 
 This example can be run locally, or deployed as is to [Heroku][heroku]. You can
 also check out a deployed version [here][dash-rq-demo].
 
 ## Run locally
 
-Make sure you Have [Python>=3.6][python36], [Redis][redis] and
-[PostgreSQL][postgres] installed. You will need to
-[start a PostgreSQL server][pg-server] and
+Make sure you have [Python>=3.6][python36] and [Redis][redis]. You will need to
 [start a Redis server][redis-server]. See the links for more details, but
 probably you will want to run something like:
 
-```
-postgres -D /usr/local/pgsql/data >logfile 2>&1 &
+```sh
 redis-server &
 ```
 
 Then do the following (preferably in a virtual environment):
 
-```
+```sh
 git clone https://github.com/tcbegley/dash-rq-demo.git
 cd dash-rq-demo
 
 pip install -r requirements.txt
-
-createdb dash-rq-demo
 
 # runs worker.py in the background and run_locally.py
 python worker.py & python run_locally.py
@@ -61,9 +54,9 @@ To deploy your own copy of this app on Heroku, just click on this button:
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)][deploy-endpoint]
 
 Alternatively if you would like to set things up manually, follow the below
-steps. It's recommended you still have Python>=3.6, Redis and PostgreSQL
-installed locally so that you can test the deployment with `heroku local`. You
-will also need to install the [Heroku CLI][heroku-cli].
+steps. It's recommended you still have Python>=3.6 and Redis installed locally
+so that you can test the deployment with `heroku local`. You will also need to
+install the [Heroku CLI][heroku-cli].
 
 ### Test locally
 
@@ -71,14 +64,11 @@ The setup is similar to the local option above, but we use `heroku local` to
 test the deployment rather than running manually as a pair of Python processes.
 You can see the configuration in `Procfile`.
 
-```
+```sh
 git clone https://github.com/tcbegley/dash-rq-demo.git
 cd dash-rq-demo
 
 pip install -r requirements.txt
-
-# only required if you haven't already created the database
-createdb dash-rq-demo
 
 heroku local
 ```
@@ -88,15 +78,14 @@ The app will be visible at [0.0.0.0:5000](https://0.0.0.0:5000).
 ### Deploy to Heroku
 
 If you were able to successfully run the app using `heroku local`, you can now
-run the following to deploy to Heroku itself. Note we need to add the Redis and
-PostgreSQL addons, and also use `heroku scale worker=1` to start a worker for
-processing the queue in the background.
+run the following to deploy to Heroku itself. Note we need to add the Redis
+addon, and also use `heroku scale worker=1` to start a worker for processing
+the queue in the background.
 
-```
+```sh
 heroku create
 git push heroku master
 
-heroku addons:create heroku-postgresql
 heroku addons:create redistogo
 heroku scale worker=1
 
@@ -112,8 +101,6 @@ request.
 [deploy-endpoint]: https://heroku.com/deploy?template=https://github.com/tcbegley/dash-rq-demo
 [heroku]: https://www.heroku.com/
 [heroku-cli]: https://devcenter.heroku.com/articles/heroku-cli
-[pg-server]: https://www.postgresql.org/docs/9.1/server-start.html
-[postgres]: https://www.postgresql.org/
 [python36]: https://www.python.org/
 [redis]: https://redis.io/
 [redis-server]: https://redis.io/topics/quickstart#starting-redis
