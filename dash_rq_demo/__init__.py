@@ -1,5 +1,6 @@
 import datetime
 import uuid
+from collections import namedtuple
 
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -8,9 +9,11 @@ from dash.dependencies import Input, Output, State
 from rq.exceptions import NoSuchJobError
 from rq.job import Job
 
-from .core import app, conn, db, queue
-from .models import Result
+from .core import app, conn, queue
 from .tasks import slow_loop
+
+
+Result = namedtuple("Result", ["result", "progress", "collapse_is_open"])
 
 EXPLAINER = """
 This app demonstrates asynchronous execution of long running tasks in Dash
@@ -52,11 +55,6 @@ def submit(n_clicks, text):
         # queue the task
         queue.enqueue(slow_loop, text, id_, job_id=str(id_))
 
-        # record queuing in the database
-        result = Result(id=id_, queued=datetime.datetime.now())
-        db.session.add(result)
-        db.session.commit()
-
         # log process id in dcc.Store
         return {"id": str(id_)}
     return {}
@@ -78,10 +76,15 @@ def retrieve_output(n, data):
             if job.get_status() == "finished":
                 return job.result, 100, False
             progress = job.meta.get("progress", 0)
-            return f"Processing - {progress:.1f}% complete", progress, True
+            return Result(
+                result=f"Processing - {progress:.1f}% complete",
+                progress=progress,
+                collapse_is_open=True,
+            )
         except NoSuchJobError:
-            # if job no longer exists, retrive result from database
-            result = Result.query.filter_by(id=data["id"]).first()
-            if result and result.result:
-                return result.result, 100, False
-    return None, None, False
+            return Result(
+                result="Error: result not found...",
+                progress=None,
+                collapse_is_open=False,
+            )
+    return Result(result=None, progress=None, collapse_is_open=False)
