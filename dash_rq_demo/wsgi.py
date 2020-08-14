@@ -1,5 +1,4 @@
 # simple wsgi entrypoint for deploying with gunicorn
-from .core import db, server
+from .core import server
 
-db.create_all()
 application = server
