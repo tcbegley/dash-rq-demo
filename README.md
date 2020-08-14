@@ -47,7 +47,7 @@ python worker.py & python run_locally.py
 
 The app should be visible at [localhost:8050](https://127.0.0.1:8050).
 
-## Deploy to Heroku
+## Heroku
 
 To deploy your own copy of this app on Heroku, just click on this button:
 
@@ -75,7 +75,7 @@ heroku local
 
 The app will be visible at [0.0.0.0:5000](https://0.0.0.0:5000).
 
-### Deploy to Heroku
+### Deploying the app
 
 If you were able to successfully run the app using `heroku local`, you can now
 run the following to deploy to Heroku itself. Note we need to add the Redis

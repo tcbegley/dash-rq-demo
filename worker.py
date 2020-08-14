@@ -1,9 +1,8 @@
 from rq import Connection, Worker
 
-from dash_rq_demo import app, conn, queue
+from dash_rq_demo import conn, queue
 
 if __name__ == "__main__":
-    with app.server.app_context():
-        with Connection(conn):
-            w = Worker([queue])
-            w.work()
+    with Connection(conn):
+        w = Worker([queue])
+        w.work()
