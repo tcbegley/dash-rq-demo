@@ -1,4 +1,3 @@
-import datetime
 import uuid
 from collections import namedtuple
 
@@ -60,13 +59,13 @@ def submit(n_clicks, text):
     Submit a job to the queue, log the id in submitted-store
     """
     if n_clicks:
-        id_ = uuid.uuid4()
+        id_ = str(uuid.uuid4())
 
         # queue the task
-        queue.enqueue(slow_loop, text, id_, job_id=str(id_))
+        queue.enqueue(slow_loop, text, job_id=id_)
 
         # log process id in dcc.Store
-        return {"id": str(id_)}
+        return {"id": id_}
 
     return {}
 
@@ -95,7 +94,7 @@ def retrieve_output(n, submitted):
                     result=job.result,
                     progress=100,
                     collapse_is_open=False,
-                    finished_data={"id": submitted["id"]}
+                    finished_data={"id": submitted["id"]},
                 )
 
             # job is still running, get progress and update progress bar
@@ -116,10 +115,7 @@ def retrieve_output(n, submitted):
             )
     # nothing submitted yet, return nothing.
     return Result(
-        result=None,
-        progress=None,
-        collapse_is_open=False,
-        finished_data={},
+        result=None, progress=None, collapse_is_open=False, finished_data={}
     )
 
 

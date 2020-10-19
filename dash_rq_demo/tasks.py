@@ -1,10 +1,9 @@
-import datetime
 import time
 
 from rq import get_current_job
 
 
-def slow_loop(s, id_):
+def slow_loop(s):
     """
     Converts a string to upper case character by character. Will update the
     database to log start and completion times.
@@ -13,8 +12,6 @@ def slow_loop(s, id_):
     ----------
     s : str
         String to convert to upper case
-    id_ : uuid.UUID
-        The job id for the submitted task.
     """
     # Store completion percentage in redis under the process id
     job = get_current_job()
