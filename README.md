@@ -84,7 +84,7 @@ the queue in the background.
 
 ```sh
 heroku create
-git push heroku master
+git push heroku main
 
 heroku addons:create redistogo
 heroku scale worker=1
