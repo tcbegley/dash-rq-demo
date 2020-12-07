@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  redis:
+    image: redis
+  app:
+    build: ./
+    command: >
+      sh -c "python worker.py &
+             python run_locally.py"
+    environment:
+      - REDISTOGO_URL=redis://redis:6379
+      - APP_HOST=0.0.0.0
+    depends_on:
+      - redis
+    ports:
+      - 8050:8050
+    volumes:
+      - .:/app
