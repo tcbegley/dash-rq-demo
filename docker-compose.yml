@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  redis:
+    image: redis
+  app:
+    build: ./
+    command: >
+      sh -c "python worker.py &
+             gunicorn dash_rq_demo.wsgi -b 0.0.0.0:8050 -w 2"
+    environment:
+      - REDISTOGO_URL=redis://redis:6379
+    depends_on:
+      - redis
+    ports:
+      - 8050:8050
