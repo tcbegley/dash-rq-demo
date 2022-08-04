@@ -16,10 +16,6 @@ second callback firing on an interval checks the current status of the job,
 either retrieving the result or updating a progress bar to indicate progress
 made on the task.
 
-A version of this app that uses a PostgreSQL database to store results of long
-running tasks can be found on the
-[`postgresql` branch](https://github.com/tcbegley/dash-rq-demo/tree/postgresql).
-
 This example can be run locally, or deployed as is to [Heroku][heroku]. You can
 also check out a deployed version [here][dash-rq-demo].
 
