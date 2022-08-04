@@ -35,12 +35,8 @@ app.layout = dbc.Container(
         html.P(EXPLAINER),
         html.Hr(),
         dbc.Textarea(id="text", className="mb-3"),
-        dbc.Button(
-            "Upper case", id="button", color="primary", className="mb-3"
-        ),
-        dbc.Collapse(
-            dbc.Progress(id="progress", className="mb-3"), id="collapse"
-        ),
+        dbc.Button("Upper case", id="button", color="primary", className="mb-3"),
+        dbc.Collapse(dbc.Progress(id="progress", className="mb-3"), id="collapse"),
         html.P(id="output"),
     ]
 )
@@ -111,9 +107,7 @@ def retrieve_output(n, submitted):
                 finished_data=no_update,
             )
     # nothing submitted yet, return nothing.
-    return Result(
-        result=None, progress=None, collapse_is_open=False, finished_data={}
-    )
+    return Result(result=None, progress=None, collapse_is_open=False, finished_data={})
 
 
 @app.callback(
