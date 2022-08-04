@@ -4,7 +4,8 @@
   "keywords": ["flask", "plotly-dash", "python", "rq", "redis"],
   "website": "https://dash-rq-demo.herokuapp.com/",
   "repository": "https://github.com/tcbegley/dash-rq-demo",
-  "addons": ["redistogo"],
+  "stack": "heroku-22",
+  "addons": ["heroku-redis"],
   "formation": {
     "web": { "quantity": 1, "size": "free" },
     "worker": { "quantity": 1, "size": "free" }

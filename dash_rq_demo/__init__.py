@@ -1,11 +1,8 @@
 import uuid
 from collections import namedtuple
 
-import dash
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output, State
+from dash import Input, Output, State, dcc, html, no_update
 from rq.exceptions import NoSuchJobError
 from rq.job import Job
 
@@ -103,7 +100,7 @@ def retrieve_output(n, submitted):
                 result=f"Processing - {progress:.1f}% complete",
                 progress=progress,
                 collapse_is_open=True,
-                finished_data=dash.no_update,
+                finished_data=no_update,
             )
         except NoSuchJobError:
             # something went wrong, display a simple error message
@@ -111,7 +108,7 @@ def retrieve_output(n, submitted):
                 result="Error: result not found...",
                 progress=None,
                 collapse_is_open=False,
-                finished_data=dash.no_update,
+                finished_data=no_update,
             )
     # nothing submitted yet, return nothing.
     return Result(

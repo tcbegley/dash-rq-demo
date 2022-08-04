@@ -37,7 +37,7 @@ cd dash-rq-demo
 If you have [Docker][docker] installed, run the app with
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 The app can be accessed at [localhost:8050](https://127.0.0.1:8050).
@@ -48,12 +48,12 @@ server so that you can benefit from hot-reloading without rebuilding the
 container.
 
 ```sh
-docker-compose -f docker-compose.dev.yml up
+docker compose -f docker-compose.dev.yml up
 ```
 ### Run manually
 
 If you don't want to use Docker, first make sure you have
-[Python>=3.6][python36] and [Redis][redis] installed. Once you've done this you
+[Python>=3.7][python37] and [Redis][redis] installed. Once you've done this you
 will need to [start a Redis server][redis-server]. See the links for more
 details, but probably you will want to run something like:
 
@@ -78,26 +78,46 @@ To deploy your own copy of this app on Heroku, just click on this button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)][deploy-endpoint]
 
+**Note**: you may need to wait a few minutes for the Redis addon to start before the app starts working.
+
 Alternatively if you would like to set things up manually, follow the below
 steps. You will need to install the [Heroku CLI][heroku-cli].
 
-Note we need to add the Redis addon, and also use `heroku scale worker=1` to
-start a worker for processing the queue in the background.
+First clone this repository and navigate to it
 
 ```sh
-# clone repo to your local machine
 git clone https://github.com/tcbegley/dash-rq-demo.git
 cd dash-rq-demo
+```
 
-# create heroku app and push code to heroku repo
+Create a new Heroku app and push the contents of this repository
+
+```sh
 heroku create
 git push heroku main
+```
 
-# create redis add-on and background worker
-heroku addons:create redistogo
+Create the Redis addon, note that this can take a few minutes to start.
+
+```sh
+heroku addons:create heroku-redis:hobby-dev
+```
+
+You can check the status of the addon with the following command. The app will not work until the addon has been successfully created.
+
+```sh
+heroku addons:info heroku-redis
+```
+
+Add a worker to handle the background tasks.
+
+```sh
 heroku scale worker=1
+```
 
-# open the deployed app in your browser
+Open the deployed app in your browser
+
+```sh
 heroku open
 ```
 
@@ -111,7 +131,7 @@ request.
 [docker]: https://www.docker.com/
 [heroku]: https://www.heroku.com/
 [heroku-cli]: https://devcenter.heroku.com/articles/heroku-cli
-[python36]: https://www.python.org/
+[python37]: https://www.python.org/
 [redis]: https://redis.io/
 [redis-server]: https://redis.io/topics/quickstart#starting-redis
 [rq-docs]: https://python-rq.org/
