@@ -9,7 +9,7 @@ services:
       sh -c "python worker.py &
              python run_locally.py"
     environment:
-      - REDISTOGO_URL=redis://redis:6379
+      - REDIS_URL=redis://redis:6379
       - APP_HOST=0.0.0.0
     depends_on:
       - redis
