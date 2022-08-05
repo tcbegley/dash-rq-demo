@@ -10,7 +10,7 @@ def lint(session):
     """Lint python source"""
     session.install("black", "isort", "flake8")
     session.run("black", "--check", *SOURCES)
-    session.run("isort", "--check", "--recursive", *SOURCES)
+    session.run("isort", "--check", *SOURCES)
     session.run("flake8", *SOURCES)
 
 
